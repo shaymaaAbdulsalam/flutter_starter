@@ -1,22 +1,14 @@
-import 'src/imports/core_imports.dart';
-import 'src/app.dart';
-
+import 'package:flutter/widgets.dart';
 
 Future<void> main() async {
-  final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  
-  await EasyLocalization.ensureInitialized();
-  // await dotenv.load(fileName: '.env');
-  
-  await AppConfig.init();
-  await HiveService.instance.init();
+  runApp(const App());
+}
 
-  runApp(
-    const LocalizationWrapper(
-      child: StateWrapper(
-        child: App(),
-      ),
-    ),
-  );
+class App extends StatelessWidget {
+  const App({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
+  }
 }

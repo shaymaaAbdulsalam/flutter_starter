@@ -464,6 +464,12 @@
       "languageVersion": "3.5"
     },
     {
+      "name": "get_it",
+      "rootUri": "file:///C:/Users/shaym/AppData/Local/Pub/Cache/hosted/pub.dev/get_it-9.2.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
       "name": "glob",
       "rootUri": "file:///C:/Users/shaym/AppData/Local/Pub/Cache/hosted/pub.dev/glob-2.1.3",
       "packageUri": "lib/",
@@ -616,6 +622,12 @@
     {
       "name": "json_annotation",
       "rootUri": "file:///C:/Users/shaym/AppData/Local/Pub/Cache/hosted/pub.dev/json_annotation-4.12.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.9"
+    },
+    {
+      "name": "json_serializable",
+      "rootUri": "file:///C:/Users/shaym/AppData/Local/Pub/Cache/hosted/pub.dev/json_serializable-6.14.0",
       "packageUri": "lib/",
       "languageVersion": "3.9"
     },
@@ -826,6 +838,12 @@
     {
       "name": "posix",
       "rootUri": "file:///C:/Users/shaym/AppData/Local/Pub/Cache/hosted/pub.dev/posix-6.5.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "pretty_dio_logger",
+      "rootUri": "file:///C:/Users/shaym/AppData/Local/Pub/Cache/hosted/pub.dev/pretty_dio_logger-1.4.0",
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
@@ -1187,7 +1205,7 @@
       "name": "flutter_starter",
       "rootUri": "../",
       "packageUri": "lib/",
-      "languageVersion": "3.5"
+      "languageVersion": "3.8"
     }
   ],
   "generator": "pub",

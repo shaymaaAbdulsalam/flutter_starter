@@ -34,9 +34,6 @@ analyzer:
     implicit-dynamic: false
   language:
     strict-casts: false
-    strict-inference: true
-    strict-raw-types: true
-
 linter:
   rules:
     prefer_const_constructors: true
