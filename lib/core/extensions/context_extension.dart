@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../theme/color_schemes.dart';
 import '../theme/theme.dart';
 import '../enums/snack_bar_type.dart';
 
@@ -15,11 +14,8 @@ extension ContextExtension on BuildContext {
 
   /// Semantic/custom colors (success, warning, info).
   AppColorsExtension get appColors =>
-      theme.extension<AppColorsExtension>() ?? (isDarkMode ? AppPalettes.dark : AppPalettes.light);
-
-  /// Design tokens (spacing, border radii, elevation defaults).
-  AppDesignTokens get designTokens =>
-      theme.extension<AppDesignTokens>() ?? AppDesignTokens.fallback;
+      theme.extension<AppColorsExtension>() ??
+      (isDarkMode ? AppPalettes.dark : AppPalettes.light);
 
   // ── MediaQuery shortcuts ─────────────────────────────────────────────────
   Size get mediaQuerySize => MediaQuery.sizeOf(this);

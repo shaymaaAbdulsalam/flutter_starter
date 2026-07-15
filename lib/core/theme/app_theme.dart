@@ -1,148 +1,34 @@
 import 'package:flutter/material.dart';
 
-import 'app_borders.dart';
-import 'color_schemes.dart';
-import 'text_theme.dart';
-import 'theme.dart';
-
-/// Everything a project changes to rebrand the kit, in one value object.
-///
-/// The component themes in [AppTheme] read *only* from this config and the
-/// derived [ColorScheme] — no magic numbers inside the builder. To restyle an
-/// entire app you edit the single `AppThemeConfig` passed in `app.dart`:
-///
-/// ```dart
-/// const config = AppThemeConfig(
-///   seedColor: Color(0xFF0B6E4F),
-///   fontFamily: 'Cairo',
-///   inputStyle: AppInputStyle.outlined,
-///   buttonRadius: AppBorders.full,        // pill buttons everywhere
-/// );
-/// MaterialApp(theme: AppTheme.light(config), darkTheme: AppTheme.dark(config));
-/// ```
-///
-/// Precedence for colors: [lightScheme]/[darkScheme] (full control) beat
-/// [seedColor] (derived via `ColorScheme.fromSeed`).
-class AppThemeConfig {
-  const AppThemeConfig({
-    this.seedColor = const Color(0xFF6750A4),
-    this.lightScheme,
-    this.darkScheme,
-    this.lightAppColors = AppPalettes.light,
-    this.darkAppColors = AppPalettes.dark,
-    this.fontFamily,
-    // Shape
-    this.inputRadius = AppBorders.input,
-    this.buttonRadius = AppBorders.button,
-    this.cardRadius = AppBorders.card,
-    this.chipRadius = AppBorders.sm,
-    this.dialogRadius = AppBorders.dialog,
-    this.bottomSheetRadius = AppBorders.bottomSheet,
-    // Inputs
-    this.inputStyle = AppInputStyle.filled,
-    this.inputContentPadding =
-        const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
-    this.inputBorderWidth = 1,
-    this.inputFocusedBorderWidth = 2,
-    // Buttons
-    this.buttonMinimumSize = const Size(88, 48),
-    this.buttonPadding =
-        const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-    // Density
-    this.visualDensity,
-  });
-
-  /// Brand color the Material 3 palette is derived from (via
-  /// `ColorScheme.fromSeed`) when no explicit scheme is given.
-  final Color seedColor;
-
-  /// Full scheme overrides for projects with a complete brand palette.
-  final ColorScheme? lightScheme;
-  final ColorScheme? darkScheme;
-
-  /// Semantic colors (success / warning / info) per brightness.
-  final AppColorsExtension lightAppColors;
-  final AppColorsExtension darkAppColors;
-
-  /// App-wide font family (must be declared in pubspec). `null` = platform.
-  final String? fontFamily;
-
-  final BorderRadius inputRadius;
-  final BorderRadius buttonRadius;
-  final BorderRadius cardRadius;
-  final BorderRadius chipRadius;
-  final BorderRadius dialogRadius;
-  final BorderRadius bottomSheetRadius;
-
-  final AppInputStyle inputStyle;
-  final EdgeInsets inputContentPadding;
-  final double inputBorderWidth;
-  final double inputFocusedBorderWidth;
-
-  final Size buttonMinimumSize;
-  final EdgeInsets buttonPadding;
-
-  final VisualDensity? visualDensity;
-
-  AppThemeConfig copyWith({
-    Color? seedColor,
-    ColorScheme? lightScheme,
-    ColorScheme? darkScheme,
-    AppColorsExtension? lightAppColors,
-    AppColorsExtension? darkAppColors,
-    String? fontFamily,
-    BorderRadius? inputRadius,
-    BorderRadius? buttonRadius,
-    BorderRadius? cardRadius,
-    BorderRadius? chipRadius,
-    BorderRadius? dialogRadius,
-    BorderRadius? bottomSheetRadius,
-    AppInputStyle? inputStyle,
-    EdgeInsets? inputContentPadding,
-    double? inputBorderWidth,
-    double? inputFocusedBorderWidth,
-    Size? buttonMinimumSize,
-    EdgeInsets? buttonPadding,
-    VisualDensity? visualDensity,
-  }) {
-    return AppThemeConfig(
-      seedColor: seedColor ?? this.seedColor,
-      lightScheme: lightScheme ?? this.lightScheme,
-      darkScheme: darkScheme ?? this.darkScheme,
-      lightAppColors: lightAppColors ?? this.lightAppColors,
-      darkAppColors: darkAppColors ?? this.darkAppColors,
-      fontFamily: fontFamily ?? this.fontFamily,
-      inputRadius: inputRadius ?? this.inputRadius,
-      buttonRadius: buttonRadius ?? this.buttonRadius,
-      cardRadius: cardRadius ?? this.cardRadius,
-      chipRadius: chipRadius ?? this.chipRadius,
-      dialogRadius: dialogRadius ?? this.dialogRadius,
-      bottomSheetRadius: bottomSheetRadius ?? this.bottomSheetRadius,
-      inputStyle: inputStyle ?? this.inputStyle,
-      inputContentPadding: inputContentPadding ?? this.inputContentPadding,
-      inputBorderWidth: inputBorderWidth ?? this.inputBorderWidth,
-      inputFocusedBorderWidth:
-          inputFocusedBorderWidth ?? this.inputFocusedBorderWidth,
-      buttonMinimumSize: buttonMinimumSize ?? this.buttonMinimumSize,
-      buttonPadding: buttonPadding ?? this.buttonPadding,
-      visualDensity: visualDensity ?? this.visualDensity,
-    );
-  }
-}
-
-/// Fill treatment for text fields and select fields app-wide.
-enum AppInputStyle { filled, outlined }
+import 'app_theme_config.dart';
+import 'app_typography.dart';
+import 'app_colors.dart';
 
 /// Builds the app's [ThemeData] from an [AppThemeConfig].
 ///
 /// Light and dark are generated from the *same* config, so dark-mode parity is
-/// automatic — a project can't restyle light and forget dark.
+/// structural — a project can't restyle light and forget dark.
+///
+/// The kit's visual signature (what makes it look designed, not default):
+///   * **Flat, bordered surfaces** — zero elevation, hairline outlines, and
+///     `surfaceTintColor: transparent` everywhere, so scrolling never smears
+///     Material's primary tint across app bars and cards.
+///   * **True-hue brand color** — the default scheme variant is `content`,
+///     which keeps the seed color's actual hue as `primary`.
+///   * **Confident shape + type** — generous radii from the token scale and a
+///     w700/tight-tracked heading voice (see `AppTypography`).
+///
+/// Adding a component theme? Read values from `config` and `colors` only —
+/// the moment a literal color or radius appears here, it can't be rebranded.
 abstract final class AppTheme {
   AppTheme._();
 
   static ThemeData light([AppThemeConfig config = const AppThemeConfig()]) {
     final scheme = config.lightScheme ??
-        ColorScheme.fromSeed(seedColor: config.seedColor);
+        ColorScheme.fromSeed(
+          seedColor: config.seedColor,
+          dynamicSchemeVariant: config.schemeVariant,
+        );
     return _build(scheme, config.lightAppColors, config);
   }
 
@@ -151,6 +37,7 @@ abstract final class AppTheme {
         ColorScheme.fromSeed(
           seedColor: config.seedColor,
           brightness: Brightness.dark,
+          dynamicSchemeVariant: config.schemeVariant,
         );
     return _build(scheme, config.darkAppColors, config);
   }
@@ -160,8 +47,10 @@ abstract final class AppTheme {
     AppColorsExtension appColors,
     AppThemeConfig config,
   ) {
-    final textTheme = buildTextTheme().apply(fontFamily: config.fontFamily);
+    final textTheme =
+        AppTypography.textTheme.apply(fontFamily: config.fontFamily);
     final filled = config.inputStyle == AppInputStyle.filled;
+    final hairline = colors.outlineVariant.withValues(alpha: 0.7);
 
     OutlineInputBorder inputBorder(Color color, [double? width]) =>
         OutlineInputBorder(
@@ -172,182 +61,220 @@ abstract final class AppTheme {
           ),
         );
 
+    ButtonStyle baseButton({
+      Color? background,
+      Color? foreground,
+      BorderSide? side,
+    }) =>
+        ButtonStyle(
+          backgroundColor:
+              background == null ? null : WidgetStatePropertyAll(background),
+          foregroundColor:
+              foreground == null ? null : WidgetStatePropertyAll(foreground),
+          minimumSize: WidgetStatePropertyAll(config.buttonMinimumSize),
+          padding: WidgetStatePropertyAll(config.buttonPadding),
+          textStyle: WidgetStatePropertyAll(textTheme.labelLarge),
+          elevation: const WidgetStatePropertyAll(0),
+          shape: WidgetStatePropertyAll(
+            RoundedRectangleBorder(borderRadius: config.buttonRadius),
+          ),
+          side: side == null ? null : WidgetStatePropertyAll(side),
+        );
+
     return ThemeData(
       useMaterial3: true,
       colorScheme: colors,
       textTheme: textTheme,
       fontFamily: config.fontFamily,
       visualDensity: config.visualDensity,
-      extensions: [appColors, AppDesignTokens.fallback],
+      extensions: [appColors],
 
-      // ── Basics ──────────────────────────────────────────────────────────
+      // ── Canvas ────────────────────────────────────────────────────────
       scaffoldBackgroundColor: colors.surface,
-      dividerTheme: DividerThemeData(
-        color: colors.outlineVariant,
-        thickness: 1,
-        space: 1,
-      ),
+      dividerTheme: DividerThemeData(color: hairline, thickness: 1, space: 1),
       iconTheme: IconThemeData(color: colors.onSurface, size: 24),
+      splashFactory: InkSparkle.splashFactory,
 
+      // ── App bar — flat, start-aligned, no scroll tint ─────────────────
       appBarTheme: AppBarTheme(
         backgroundColor: colors.surface,
+        surfaceTintColor: Colors.transparent,
         foregroundColor: colors.onSurface,
         elevation: 0,
-        centerTitle: true,
-        titleTextStyle: textTheme.titleMedium?.copyWith(
-          fontWeight: FontWeight.w600,
-          color: colors.onSurface,
-        ),
+        scrolledUnderElevation: 0,
+        centerTitle: config.appBarCenterTitle,
+        titleTextStyle:
+            textTheme.titleLarge?.copyWith(color: colors.onSurface),
       ),
 
-      // ── Buttons — geometry from config, colors from the scheme ──────────
-      elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: colors.primary,
-          foregroundColor: colors.onPrimary,
-          minimumSize: config.buttonMinimumSize,
-          padding: config.buttonPadding,
-          shape: RoundedRectangleBorder(borderRadius: config.buttonRadius),
-          elevation: 0,
+      // ── Buttons — 52pt, w600 labels, flat ─────────────────────────────
+      filledButtonTheme: FilledButtonThemeData(
+        style: baseButton(
+          background: colors.primary,
+          foreground: colors.onPrimary,
         ),
       ),
-      filledButtonTheme: FilledButtonThemeData(
-        style: FilledButton.styleFrom(
-          minimumSize: config.buttonMinimumSize,
-          padding: config.buttonPadding,
-          shape: RoundedRectangleBorder(borderRadius: config.buttonRadius),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: baseButton(
+          background: colors.primaryContainer,
+          foreground: colors.onPrimaryContainer,
         ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
-        style: OutlinedButton.styleFrom(
-          minimumSize: config.buttonMinimumSize,
-          padding: config.buttonPadding,
-          shape: RoundedRectangleBorder(borderRadius: config.buttonRadius),
-          side: BorderSide(color: colors.outline, width: 1.5),
+        style: baseButton(
+          foreground: colors.primary,
+          side: BorderSide(color: colors.outline),
         ),
       ),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
-          minimumSize: Size(config.buttonMinimumSize.width, 40),
+          foregroundColor: colors.primary,
+          textStyle: textTheme.labelLarge,
           shape: RoundedRectangleBorder(borderRadius: config.chipRadius),
         ),
       ),
+      iconButtonTheme: IconButtonThemeData(
+        style: IconButton.styleFrom(foregroundColor: colors.onSurfaceVariant),
+      ),
 
-      // ── Inputs — the single source every AppTextField/AppSelectField
-      //    inherits. Change the config, every field in the app follows. ─────
+      // ── Inputs — soft fill, invisible at rest, ring on focus ──────────
       inputDecorationTheme: InputDecorationTheme(
         filled: filled,
         fillColor: filled
-            ? colors.surfaceContainerHighest.withValues(alpha: 0.4)
+            ? colors.surfaceContainerHighest.withValues(alpha: 0.45)
             : null,
         contentPadding: config.inputContentPadding,
         border: inputBorder(colors.outline),
-        enabledBorder: inputBorder(
-          filled ? Colors.transparent : colors.outline,
-        ),
+        enabledBorder:
+            inputBorder(filled ? Colors.transparent : colors.outline),
         focusedBorder:
             inputBorder(colors.primary, config.inputFocusedBorderWidth),
         errorBorder: inputBorder(colors.error),
         focusedErrorBorder:
             inputBorder(colors.error, config.inputFocusedBorderWidth),
-        disabledBorder: inputBorder(
-          filled ? Colors.transparent : colors.outlineVariant,
-        ),
+        disabledBorder:
+            inputBorder(filled ? Colors.transparent : hairline),
         hintStyle: textTheme.bodyMedium?.copyWith(
           color: colors.onSurfaceVariant.withValues(alpha: 0.6),
         ),
         errorStyle: textTheme.bodySmall?.copyWith(color: colors.error),
-        suffixIconColor: colors.onSurfaceVariant,
         prefixIconColor: colors.onSurfaceVariant,
+        suffixIconColor: colors.onSurfaceVariant,
       ),
 
+      // ── Containers — hairline borders instead of shadows ──────────────
       cardTheme: CardThemeData(
         clipBehavior: Clip.antiAlias,
         elevation: 0,
+        surfaceTintColor: Colors.transparent,
         margin: EdgeInsets.zero,
         shape: RoundedRectangleBorder(
-          side: BorderSide(color: colors.outlineVariant),
+          side: BorderSide(color: hairline),
           borderRadius: config.cardRadius,
         ),
         color: colors.surfaceContainerLow,
       ),
-
       chipTheme: ChipThemeData(
         shape: RoundedRectangleBorder(borderRadius: config.chipRadius),
-        side: BorderSide(color: colors.outlineVariant),
+        side: BorderSide(color: hairline),
         backgroundColor: colors.surfaceContainerLow,
-        labelStyle: textTheme.labelMedium,
+        selectedColor: colors.secondaryContainer,
+        labelStyle: textTheme.labelMedium?.copyWith(color: colors.onSurface),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       ),
-
       listTileTheme: ListTileThemeData(
         shape: RoundedRectangleBorder(borderRadius: config.cardRadius),
-        titleTextStyle:
-            textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
+        iconColor: colors.onSurfaceVariant,
+        titleTextStyle: textTheme.titleMedium,
         subtitleTextStyle:
             textTheme.bodyMedium?.copyWith(color: colors.onSurfaceVariant),
       ),
 
-      checkboxTheme: const CheckboxThemeData(
-        shape: RoundedRectangleBorder(borderRadius: AppBorders.xs),
+      // ── Overlays ───────────────────────────────────────────────────────
+      dialogTheme: DialogThemeData(
+        shape: RoundedRectangleBorder(borderRadius: config.dialogRadius),
+        elevation: 0,
+        backgroundColor: colors.surfaceContainerLow,
+        surfaceTintColor: Colors.transparent,
+        titleTextStyle: textTheme.headlineSmall,
+        contentTextStyle:
+            textTheme.bodyMedium?.copyWith(color: colors.onSurfaceVariant),
       ),
-
+      bottomSheetTheme: BottomSheetThemeData(
+        showDragHandle: true,
+        elevation: 0,
+        backgroundColor: colors.surfaceContainerLow,
+        surfaceTintColor: Colors.transparent,
+        shape: RoundedRectangleBorder(borderRadius: config.bottomSheetRadius),
+      ),
       snackBarTheme: SnackBarThemeData(
         behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: config.cardRadius),
+        shape: RoundedRectangleBorder(borderRadius: config.inputRadius),
+        elevation: 0,
         backgroundColor: colors.inverseSurface,
         contentTextStyle:
             textTheme.bodyMedium?.copyWith(color: colors.onInverseSurface),
       ),
 
-      dialogTheme: DialogThemeData(
-        shape: RoundedRectangleBorder(borderRadius: config.dialogRadius),
-        elevation: 0,
-        backgroundColor: colors.surface,
-        titleTextStyle:
-            textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
-        contentTextStyle: textTheme.bodyMedium,
-      ),
-
-      bottomSheetTheme: BottomSheetThemeData(
-        showDragHandle: true,
-        elevation: 0,
-        backgroundColor: colors.surface,
-        shape: RoundedRectangleBorder(borderRadius: config.bottomSheetRadius),
-      ),
-
+      // ── Navigation ─────────────────────────────────────────────────────
       tabBarTheme: TabBarThemeData(
         labelColor: colors.primary,
         unselectedLabelColor: colors.onSurfaceVariant,
         indicatorColor: colors.primary,
         indicatorSize: TabBarIndicatorSize.label,
-        labelStyle: textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
-        unselectedLabelStyle: textTheme.titleSmall,
+        dividerColor: hairline,
+        labelStyle: textTheme.titleSmall,
+        unselectedLabelStyle:
+            textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w500),
       ),
-
       navigationBarTheme: NavigationBarThemeData(
         backgroundColor: colors.surface,
+        surfaceTintColor: Colors.transparent,
         indicatorColor: colors.secondaryContainer,
+        elevation: 0,
         labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+        labelTextStyle: WidgetStateProperty.resolveWith(
+          (states) => textTheme.labelMedium?.copyWith(
+            color: states.contains(WidgetState.selected)
+                ? colors.onSurface
+                : colors.onSurfaceVariant,
+          ),
+        ),
       ),
-
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: colors.primary,
         foregroundColor: colors.onPrimary,
-        elevation: 2,
+        elevation: 0,
+        highlightElevation: 0,
         shape: RoundedRectangleBorder(borderRadius: config.cardRadius),
       ),
 
+      // ── Selection controls ─────────────────────────────────────────────
+      checkboxTheme: CheckboxThemeData(
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(6)),
+        ),
+        side: BorderSide(color: colors.outline, width: 1.5),
+      ),
       switchTheme: SwitchThemeData(
-        thumbColor: WidgetStateProperty.resolveWith((states) {
-          if (states.contains(WidgetState.selected)) return colors.primary;
-          return colors.outline;
-        }),
-        trackColor: WidgetStateProperty.resolveWith((states) {
-          if (states.contains(WidgetState.selected)) {
-            return colors.primaryContainer;
-          }
-          return colors.surfaceContainerHighest;
-        }),
+        trackOutlineColor: WidgetStateProperty.resolveWith(
+          (states) => states.contains(WidgetState.selected)
+              ? Colors.transparent
+              : colors.outline,
+        ),
+      ),
+      progressIndicatorTheme: ProgressIndicatorThemeData(
+        color: colors.primary,
+        linearTrackColor: colors.surfaceContainerHighest,
+        circularTrackColor: Colors.transparent,
+      ),
+      tooltipTheme: TooltipThemeData(
+        decoration: BoxDecoration(
+          color: colors.inverseSurface,
+          borderRadius: config.chipRadius,
+        ),
+        textStyle:
+            textTheme.labelSmall?.copyWith(color: colors.onInverseSurface),
       ),
     );
   }

@@ -6,30 +6,23 @@ import 'package:go_router/go_router.dart';
 
 import 'package:flutter_starter/core/di/setup.dart';
 import 'package:flutter_starter/core/theme/theme.dart';
-
 import 'package:flutter_starter/features/auth/presentation/bloc/auth/auth_bloc.dart';
 
-/// Root widget. Wires the app-level [AuthBloc] above the router (so both the
-/// guard and every screen share one instance), applies theming, ScreenUtil, and
-/// localization, and hands off to `MaterialApp.router`.
 class App extends StatelessWidget {
   const App({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<AuthBloc>.value(
-      // The singleton session bloc from DI — never recreated.
       value: getIt<AuthBloc>(),
       child: ScreenUtilInit(
         designSize: const Size(390, 844),
         minTextAdapt: true,
         builder: (context, _) {
           final router = getIt<GoRouter>();
-          // The ONE place to rebrand the app — see AppThemeConfig for every
-          // knob (full color schemes, font, radii, input & button geometry).
-          const themeConfig = AppThemeConfig(
-            seedColor: Color(0xFF6750A4),
-          );
+          // The ONE place to rebrand the app — every knob lives on
+          // AppThemeConfig (see core/theme/README.md for the 60-second guide).
+          const themeConfig = AppThemeConfig();
           return MaterialApp.router(
             debugShowCheckedModeBanner: false,
             routerConfig: router,
