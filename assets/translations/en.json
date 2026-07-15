@@ -12,10 +12,48 @@
   },
   "home": {
     "home_title": "Home",
+    "title": "Home",
+    "greeting": "Welcome, {}!",
     "welcome_home": "Welcome Home!",
     "home_subtitle": "You have successfully completed the onboarding process."
   },
+  "common": {
+    "retry": "Retry",
+    "empty_title": "Nothing here yet",
+    "empty_description": "There's no data to show."
+  },
+  "demo": {
+    "title": "Kit showcase",
+    "open": "UI kit showcase",
+    "tab_result": "Single result",
+    "tab_list": "Paginated list",
+    "tab_inputs": "Inputs",
+    "show_errors": "Show validation errors",
+    "select_hint": "Select…",
+    "search_hint": "Search…",
+    "success": "Success",
+    "network_error": "Network error",
+    "server_error": "Server error",
+    "empty": "Empty",
+    "empty_title": "No items",
+    "empty_description": "This is the empty state — switch to the Success scenario to load data.",
+    "hint_result": "Pick a scenario. One ResultBuilder renders loading, data, and typed-failure errors with retry.",
+    "hint_list": "Pick a scenario. Pull to refresh, scroll to load more — skeletons, empty and error states included."
+  },
+  "errors": {
+    "network": "No internet connection. Please try again.",
+    "unauthorized": "Your session has expired. Please log in again.",
+    "validation": "Please check the highlighted fields.",
+    "server": "Something went wrong on our side. Please try again.",
+    "cache": "Could not access local storage.",
+    "unknown": "Something went wrong. Please try again."
+  },
   "auth": {
+    "login_title": "Welcome back",
+    "login_cta": "Log in",
+    "go_to_register": "Don't have an account? Sign up",
+    "register_title": "Create account",
+    "register_cta": "Create account",
     "log_in": "Log in",
     "log_in_subtitle": "Enter your email and password",
     "email": "Email",

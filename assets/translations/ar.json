@@ -11,11 +11,49 @@
     "onboarding_subtitle_3": "Find trending destinations and must-see attractions,\nall tailored to enhance your travel plans."
   },
   "home": {
-    "home_title": "Home",
-    "welcome_home": "Welcome Home!",
-    "home_subtitle": "You have successfully completed the onboarding process."
+    "home_title": "الرئيسية",
+    "title": "الرئيسية",
+    "greeting": "مرحباً، {}!",
+    "welcome_home": "مرحباً بعودتك!",
+    "home_subtitle": "لقد أكملت عملية التعريف بنجاح."
+  },
+  "common": {
+    "retry": "إعادة المحاولة",
+    "empty_title": "لا يوجد شيء بعد",
+    "empty_description": "لا توجد بيانات لعرضها."
+  },
+  "demo": {
+    "title": "عرض المكونات",
+    "open": "عرض مكونات الواجهة",
+    "tab_result": "نتيجة واحدة",
+    "tab_list": "قائمة مقسّمة",
+    "tab_inputs": "حقول الإدخال",
+    "show_errors": "عرض أخطاء التحقق",
+    "select_hint": "اختر…",
+    "search_hint": "بحث…",
+    "success": "نجاح",
+    "network_error": "خطأ في الشبكة",
+    "server_error": "خطأ في الخادم",
+    "empty": "فارغ",
+    "empty_title": "لا توجد عناصر",
+    "empty_description": "هذه هي الحالة الفارغة — اختر سيناريو النجاح لتحميل البيانات.",
+    "hint_result": "اختر سيناريو. عنصر ResultBuilder واحد يعرض التحميل والبيانات والأخطاء مع إعادة المحاولة.",
+    "hint_list": "اختر سيناريو. اسحب للتحديث، ومرّر للأسفل لتحميل المزيد — مع الهياكل والحالة الفارغة والأخطاء."
+  },
+  "errors": {
+    "network": "لا يوجد اتصال بالإنترنت. حاول مرة أخرى.",
+    "unauthorized": "انتهت صلاحية جلستك. الرجاء تسجيل الدخول مجدداً.",
+    "validation": "يرجى التحقق من الحقول المميزة.",
+    "server": "حدث خطأ من جانبنا. حاول مرة أخرى.",
+    "cache": "تعذر الوصول إلى التخزين المحلي.",
+    "unknown": "حدث خطأ ما. حاول مرة أخرى."
   },
   "auth": {
+    "login_title": "مرحباً بعودتك",
+    "login_cta": "تسجيل الدخول",
+    "go_to_register": "ليس لديك حساب؟ أنشئ حساباً",
+    "register_title": "إنشاء حساب",
+    "register_cta": "إنشاء حساب",
     "log_in": "Log in",
     "log_in_subtitle": "Enter your email and password",
     "email": "Email",

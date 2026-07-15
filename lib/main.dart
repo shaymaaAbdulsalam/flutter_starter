@@ -1,14 +1,27 @@
-import 'package:flutter/widgets.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+
+import 'package:flutter_starter/app.dart';
+import 'package:flutter_starter/core/di/setup.dart';
+import 'package:flutter_starter/features/auth/presentation/bloc/auth/auth_bloc.dart';
 
 Future<void> main() async {
-  runApp(const App());
-}
+  WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
 
-class App extends StatelessWidget {
-  const App({super.key});
+  // Build the dependency graph before the first frame.
+  await setupGetIt();
 
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
-  }
+  // Kick off session resolution: reads the cached session and moves the router
+  // off the splash screen to either login or home.
+  getIt<AuthBloc>().add(const AuthStarted());
+
+  runApp(
+    EasyLocalization(
+      supportedLocales: const [Locale('en'), Locale('ar')],
+      path: 'assets/translations',
+      fallbackLocale: const Locale('en'),
+      child: const App(),
+    ),
+  );
 }
