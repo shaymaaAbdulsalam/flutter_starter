@@ -1,9 +1,5 @@
 part of 'login_bloc.dart';
 
-/// Login validation rules, kept in the bloc (per the kit convention) as an
-/// extension that calls [FormValidationMixin.checkValidation]. Each failing
-/// rule attaches its localized message to the offending [FieldValue]; the UI
-/// renders it automatically via `AppTextField`.
 extension LoginValidation on LoginBloc {
   bool validate(Emitter<LoginState> emit) {
     return checkValidation([

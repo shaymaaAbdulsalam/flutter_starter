@@ -32,6 +32,9 @@ class _FakeRemote implements AuthRemoteDataSource {
 
   @override
   Future<void> logout() async {}
+
+  @override
+  Future<UserDto> getCurrentUser() => onLogin!().then((s) => s.user);
 }
 
 class _FakeLocal implements AuthLocalDataSource {

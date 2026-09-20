@@ -5,7 +5,6 @@ import 'package:flutter_starter/core/usecase/usecase.dart';
 import 'package:flutter_starter/features/auth/domain/entities/auth_session.dart';
 import 'package:flutter_starter/features/auth/domain/repositories/auth_repository.dart';
 
-/// Single-responsibility use case: register a new account.
 class RegisterUseCase implements UseCase<AuthSession, RegisterParams> {
   const RegisterUseCase(this._repository);
 

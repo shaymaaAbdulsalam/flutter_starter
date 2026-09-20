@@ -1,13 +1,5 @@
 import 'package:flutter/material.dart';
 
-/// Semantic status colors that Material's [ColorScheme] doesn't carry —
-/// success / warning / info, each with container variants for soft chips,
-/// banners and badges. Read them via `context.appColors`.
-///
-/// A project rebrands these by passing its own [AppColorsExtension] pair to
-/// `AppThemeConfig(lightAppColors: …, darkAppColors: …)` — the defaults below
-/// ([AppPalettes]) are tuned to hold up on the kit's tinted neutral surfaces
-/// in both modes.
 class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
   const AppColorsExtension({
     required this.success,
@@ -93,9 +85,6 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
   }
 }
 
-/// The kit's default semantic palettes — saturated cores with soft containers,
-/// mirrored across light/dark so status UI keeps identical contrast intent in
-/// both modes.
 abstract final class AppPalettes {
   AppPalettes._();
 

@@ -4,22 +4,6 @@ import 'app_theme_config.dart';
 import 'app_typography.dart';
 import 'app_colors.dart';
 
-/// Builds the app's [ThemeData] from an [AppThemeConfig].
-///
-/// Light and dark are generated from the *same* config, so dark-mode parity is
-/// structural — a project can't restyle light and forget dark.
-///
-/// The kit's visual signature (what makes it look designed, not default):
-///   * **Flat, bordered surfaces** — zero elevation, hairline outlines, and
-///     `surfaceTintColor: transparent` everywhere, so scrolling never smears
-///     Material's primary tint across app bars and cards.
-///   * **True-hue brand color** — the default scheme variant is `content`,
-///     which keeps the seed color's actual hue as `primary`.
-///   * **Confident shape + type** — generous radii from the token scale and a
-///     w700/tight-tracked heading voice (see `AppTypography`).
-///
-/// Adding a component theme? Read values from `config` and `colors` only —
-/// the moment a literal color or radius appears here, it can't be rebranded.
 abstract final class AppTheme {
   AppTheme._();
 
@@ -89,13 +73,11 @@ abstract final class AppTheme {
       visualDensity: config.visualDensity,
       extensions: [appColors],
 
-      // ── Canvas ────────────────────────────────────────────────────────
       scaffoldBackgroundColor: colors.surface,
       dividerTheme: DividerThemeData(color: hairline, thickness: 1, space: 1),
       iconTheme: IconThemeData(color: colors.onSurface, size: 24),
       splashFactory: InkSparkle.splashFactory,
 
-      // ── App bar — flat, start-aligned, no scroll tint ─────────────────
       appBarTheme: AppBarTheme(
         backgroundColor: colors.surface,
         surfaceTintColor: Colors.transparent,
@@ -107,7 +89,6 @@ abstract final class AppTheme {
             textTheme.titleLarge?.copyWith(color: colors.onSurface),
       ),
 
-      // ── Buttons — 52pt, w600 labels, flat ─────────────────────────────
       filledButtonTheme: FilledButtonThemeData(
         style: baseButton(
           background: colors.primary,
@@ -137,7 +118,6 @@ abstract final class AppTheme {
         style: IconButton.styleFrom(foregroundColor: colors.onSurfaceVariant),
       ),
 
-      // ── Inputs — soft fill, invisible at rest, ring on focus ──────────
       inputDecorationTheme: InputDecorationTheme(
         filled: filled,
         fillColor: filled
@@ -162,7 +142,6 @@ abstract final class AppTheme {
         suffixIconColor: colors.onSurfaceVariant,
       ),
 
-      // ── Containers — hairline borders instead of shadows ──────────────
       cardTheme: CardThemeData(
         clipBehavior: Clip.antiAlias,
         elevation: 0,
@@ -190,7 +169,6 @@ abstract final class AppTheme {
             textTheme.bodyMedium?.copyWith(color: colors.onSurfaceVariant),
       ),
 
-      // ── Overlays ───────────────────────────────────────────────────────
       dialogTheme: DialogThemeData(
         shape: RoundedRectangleBorder(borderRadius: config.dialogRadius),
         elevation: 0,
@@ -216,7 +194,6 @@ abstract final class AppTheme {
             textTheme.bodyMedium?.copyWith(color: colors.onInverseSurface),
       ),
 
-      // ── Navigation ─────────────────────────────────────────────────────
       tabBarTheme: TabBarThemeData(
         labelColor: colors.primary,
         unselectedLabelColor: colors.onSurfaceVariant,
@@ -249,7 +226,6 @@ abstract final class AppTheme {
         shape: RoundedRectangleBorder(borderRadius: config.cardRadius),
       ),
 
-      // ── Selection controls ─────────────────────────────────────────────
       checkboxTheme: CheckboxThemeData(
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(6)),

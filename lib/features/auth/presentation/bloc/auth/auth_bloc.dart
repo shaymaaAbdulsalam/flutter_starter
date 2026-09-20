@@ -13,14 +13,6 @@ import 'package:flutter_starter/features/auth/domain/usecases/logout_usecase.dar
 part 'auth_event.dart';
 part 'auth_state.dart';
 
-/// **App-level, long-lived** session bloc. Registered as a *singleton* and
-/// provided above the router. It is the single source of truth for "is the user
-/// logged in?", and the router's redirect reads its state.
-///
-/// It is deliberately NOT the login *form* bloc — form state (fields,
-/// validation, submit spinners) belongs in the short-lived `LoginBloc`, created
-/// per-page as a *factory*. This split is the key opinionated decision:
-/// a session object must outlive any screen, while form objects must not.
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc({
     required GetCurrentUserUseCase getCurrentUser,
@@ -33,7 +25,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthLoggedIn>(_onLoggedIn);
     on<AuthLoggedOut>(_onLoggedOut);
 
-    // Forced logout signalled from the network layer (expired/invalid token).
     _sessionSub = sessionEventBus.stream.listen((event) {
       if (event == SessionEvent.unauthorized) add(const AuthLoggedOut());
     });

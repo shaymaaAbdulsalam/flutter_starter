@@ -5,11 +5,8 @@ import 'package:flutter_starter/core/network/dio_exception_mapper.dart';
 import 'package:flutter_starter/core/network/network_client.dart';
 import 'package:flutter_starter/core/typedefs/typedefs.dart';
 import 'package:flutter_starter/features/auth/data/models/auth_session_dto.dart';
+import 'package:flutter_starter/features/auth/data/models/user_dto.dart';
 
-/// Talks to the auth HTTP endpoints. Knows about Dio and JSON; knows nothing
-/// about domain entities or `Failure`. On transport errors it throws typed
-/// [AppException]s via [mapDioException] — the repository converts those to
-/// [Failure]s. This class never returns a `null`-on-error or a String message.
 abstract interface class AuthRemoteDataSource {
   Future<AuthSessionDto> login({required String email, required String password});
   Future<AuthSessionDto> register({
@@ -18,6 +15,7 @@ abstract interface class AuthRemoteDataSource {
     required String password,
   });
   Future<void> logout();
+  Future<UserDto> getCurrentUser();
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -62,6 +60,17 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<void> logout() async {
     try {
       await _client.dio.post<void>(ApiEndpoints.logout);
+    } on DioException catch (e) {
+      mapDioException(e);
+    }
+  }
+
+  @override
+  Future<UserDto> getCurrentUser() async {
+    try {
+      final response =
+          await _client.dio.get<DataMap>(ApiEndpoints.currentUser);
+      return UserDto.fromJson(response.data ?? const {});
     } on DioException catch (e) {
       mapDioException(e);
     }

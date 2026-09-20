@@ -8,8 +8,6 @@ import 'package:flutter_starter/core/ui/failure_message.dart';
 import 'package:flutter_starter/core/ui/inputs/app_text_field.dart';
 import 'package:flutter_starter/features/auth/presentation/bloc/register/register_bloc.dart';
 
-/// Registration screen. Structurally identical to [LoginPage] — same
-/// FieldValue + validator + `Result` submission stack.
 class RegisterPage extends StatelessWidget {
   const RegisterPage({super.key});
 

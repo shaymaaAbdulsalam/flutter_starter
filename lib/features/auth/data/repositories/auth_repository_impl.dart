@@ -8,12 +8,6 @@ import 'package:flutter_starter/features/auth/domain/entities/auth_session.dart'
 import 'package:flutter_starter/features/auth/domain/entities/user.dart';
 import 'package:flutter_starter/features/auth/domain/repositories/auth_repository.dart';
 
-/// Concrete [AuthRepository]. Orchestrates remote + local data sources and
-/// converts data-layer exceptions into domain [Failure]s via [safeCall].
-///
-/// This is the *only* class that knows both sides (network and cache) exist.
-/// Note how thin and declarative each method is — that readability is exactly
-/// what makes this a good pattern to copy into every future feature.
 class AuthRepositoryImpl with RepositorySafeCall implements AuthRepository {
   const AuthRepositoryImpl({
     required AuthRemoteDataSource remote,
@@ -53,7 +47,6 @@ class AuthRepositoryImpl with RepositorySafeCall implements AuthRepository {
 
   @override
   FutureVoid logout() => safeCall(() async {
-        // Best-effort server logout, then always clear local session.
         try {
           await _remote.logout();
         } finally {
@@ -66,5 +59,11 @@ class AuthRepositoryImpl with RepositorySafeCall implements AuthRepository {
   FutureEither<User?> currentUser() => safeCall(() async {
         final dto = await _local.readCachedUser();
         return dto?.toEntity();
+      });
+
+  @override
+  FutureEither<User> fetchProfile() => safeCall(() async {
+        final dto = await _remote.getCurrentUser();
+        return dto.toEntity();
       });
 }

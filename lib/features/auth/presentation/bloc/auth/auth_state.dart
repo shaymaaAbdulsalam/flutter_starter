@@ -1,8 +1,5 @@
 part of 'auth_bloc.dart';
 
-/// Tri-state session status. `unknown` is the crucial third state: at startup
-/// we do not yet know if there is a session, so the router shows a splash
-/// instead of flashing the login screen before the cache is read.
 enum AuthStatus { unknown, authenticated, unauthenticated }
 
 class AuthState extends Equatable {

@@ -1,8 +1,5 @@
 part of 'login_bloc.dart';
 
-/// Form state: each field is a [FieldValue] (value + inline error), and the
-/// network submission is a [Result] slice. No ad-hoc `isLoading`/`errorMessage`
-/// booleans — the [Result] carries the whole submit lifecycle.
 class LoginState extends Equatable {
   const LoginState({
     this.email = const FieldValue(''),

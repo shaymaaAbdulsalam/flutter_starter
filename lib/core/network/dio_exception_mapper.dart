@@ -3,13 +3,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter_starter/core/error/exceptions.dart';
 import 'package:flutter_starter/core/typedefs/typedefs.dart';
 
-/// Translates a low-level [DioException] into a typed [AppException].
-///
-/// Every remote data source funnels its `catch (DioException)` through this one
-/// function, so the transport→exception mapping is defined **once** instead of
-/// being re-invented (and diverging) in every feature. Returns [Never] because
-/// it always throws — call it as `throw mapDioException(e);` or simply
-/// `mapDioException(e);` as the last statement of a catch block.
 Never mapDioException(DioException e) {
   switch (e.type) {
     case DioExceptionType.connectionTimeout:
@@ -47,9 +40,6 @@ Never mapDioException(DioException e) {
   }
 }
 
-/// Best-effort extraction of a human-readable message from common API error
-/// body shapes: `{message: "..."}` or `{error: "..."}` or `{detail: "..."}`.
-/// Adapt this to your backend's contract in one place.
 String? _extractMessage(dynamic data) {
   if (data is DataMap) {
     final candidate = data['message'] ?? data['error'] ?? data['detail'];
@@ -59,7 +49,6 @@ String? _extractMessage(dynamic data) {
   return null;
 }
 
-/// Extracts `{errors: {field: [..]}}` style validation payloads if present.
 Map<String, List<String>>? _extractFieldErrors(dynamic data) {
   if (data is DataMap && data['errors'] is DataMap) {
     return (data['errors'] as DataMap).map(

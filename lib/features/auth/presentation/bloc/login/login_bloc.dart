@@ -13,13 +13,6 @@ part 'login_event.dart';
 part 'login_state.dart';
 part 'login_validator.dart';
 
-/// Short-lived login form bloc (registered as a factory). Demonstrates the
-/// ported form stack end-to-end:
-///   * fields are [FieldValue]s (value + error) in the state;
-///   * validation lives in the bloc ([LoginValidation.validate]), not the UI;
-///   * the submission is a [Result] slice driven by `linkWithState`, so the one
-///     call emits loading → success/failure and forwards the session to the
-///     app-level [AuthBloc].
 class LoginBloc extends Bloc<LoginEvent, LoginState> with FormValidationMixin {
   LoginBloc({
     required LoginUseCase login,

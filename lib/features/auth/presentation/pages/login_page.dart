@@ -10,9 +10,6 @@ import 'package:flutter_starter/core/ui/inputs/app_text_field.dart';
 import 'package:flutter_starter/core/routing/app_routes.dart';
 import 'package:flutter_starter/features/auth/presentation/bloc/login/login_bloc.dart';
 
-/// Login screen. Owns a factory-scoped [LoginBloc]; field errors come from the
-/// bloc validator (rendered by [AppTextField]), and the submit lifecycle is the
-/// bloc's `Result` submission slice. Navigation on success is the router's job.
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
 
@@ -36,8 +33,6 @@ class _LoginView extends StatelessWidget {
           listenWhen: (prev, curr) =>
               prev.submission.status != curr.submission.status,
           listener: (context, state) {
-            // Server-side failures (e.g. wrong credentials) surface as a
-            // snackbar; field-format errors render inline under the inputs.
             if (state.submission.hasError) {
               context.showErrorSnackBar(state.submission.failure!.toMessage());
             }
@@ -90,13 +85,6 @@ class _LoginView extends StatelessWidget {
                     TextButton(
                       onPressed: () => context.push(AppRoutes.signup),
                       child: Text('auth.go_to_register'.tr()),
-                    ),
-                    const Divider(height: 32),
-                    // Kit showcase entry — delete with features/demo/.
-                    OutlinedButton.icon(
-                      onPressed: () => context.push(AppRoutes.demo),
-                      icon: const Icon(Icons.widgets_outlined),
-                      label: Text('demo.open'.tr()),
                     ),
                   ],
                 ),

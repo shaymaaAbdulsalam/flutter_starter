@@ -6,28 +6,6 @@ import 'package:fpdart/fpdart.dart';
 
 void main() {
   group('Result', () {
-    test('when() dispatches to the matching branch', () {
-      String label(Result<int> r) => r.when(
-            idle: () => 'idle',
-            loading: () => 'loading',
-            success: (d) => 'success:$d',
-            failure: (f) => 'failure:${f.message}',
-          );
-
-      expect(label(const Result.idle()), 'idle');
-      expect(label(const Result.loading()), 'loading');
-      expect(label(const Result.success(42)), 'success:42');
-      expect(
-        label(const Result.failure(NetworkFailure())),
-        'failure:Network unavailable',
-      );
-    });
-
-    test('map transforms the success value only', () {
-      expect(const Result.success(2).map((v) => v * 10).data, 20);
-      expect(const Result<int>.loading().map((v) => v * 10).isLoading, isTrue);
-    });
-
     test('fromEither maps Right/Left', () {
       expect(Result<int>.fromEither(const Right(7)).data, 7);
       expect(

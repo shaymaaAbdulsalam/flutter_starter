@@ -20,8 +20,6 @@ class App extends StatelessWidget {
         minTextAdapt: true,
         builder: (context, _) {
           final router = getIt<GoRouter>();
-          // The ONE place to rebrand the app — every knob lives on
-          // AppThemeConfig (see core/theme/README.md for the 60-second guide).
           const themeConfig = AppThemeConfig();
           return MaterialApp.router(
             debugShowCheckedModeBanner: false,

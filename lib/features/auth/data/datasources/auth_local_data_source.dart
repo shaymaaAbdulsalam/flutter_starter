@@ -3,15 +3,11 @@ import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'package:flutter_starter/core/error/exceptions.dart';
-import 'package:flutter_starter/core/network/token_store.dart';
+import 'package:flutter_starter/core/storage/secure_storage.dart';
 import 'package:flutter_starter/core/typedefs/typedefs.dart';
 import 'package:flutter_starter/features/auth/data/models/auth_session_dto.dart';
 import 'package:flutter_starter/features/auth/data/models/user_dto.dart';
 
-/// Persists the session locally: tokens (via [TokenStore]) and a cached copy of
-/// the user so the app can resolve auth state on cold start without a network
-/// round-trip. Storage failures throw [CacheException] — they are never
-/// swallowed into a `null` that would masquerade as "logged out".
 abstract interface class AuthLocalDataSource {
   Future<void> cacheSession(AuthSessionDto session);
   Future<UserDto?> readCachedUser();
@@ -20,12 +16,12 @@ abstract interface class AuthLocalDataSource {
 
 class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   const AuthLocalDataSourceImpl({
-    required TokenStore tokenStore,
+    required SecureStorage localStorage,
     required FlutterSecureStorage secureStorage,
-  })  : _tokenStore = tokenStore,
+  })  : _localStorage = localStorage,
         _secureStorage = secureStorage;
 
-  final TokenStore _tokenStore;
+  final SecureStorage _localStorage;
   final FlutterSecureStorage _secureStorage;
 
   static const _userKey = 'auth.user';
@@ -33,7 +29,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   @override
   Future<void> cacheSession(AuthSessionDto session) async {
     try {
-      await _tokenStore.saveTokens(
+      await _localStorage.saveTokens(
         accessToken: session.accessToken,
         refreshToken: session.refreshToken,
       );
@@ -49,7 +45,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   @override
   Future<UserDto?> readCachedUser() async {
     try {
-      final token = await _tokenStore.readAccessToken();
+      final token = await _localStorage.readAccessToken();
       final rawUser = await _secureStorage.read(key: _userKey);
       if (token == null || rawUser == null) return null;
       return UserDto.fromJson(jsonDecode(rawUser) as DataMap);
@@ -61,7 +57,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   @override
   Future<void> clear() async {
     try {
-      await _tokenStore.clear();
+      await _localStorage.clear();
       await _secureStorage.delete(key: _userKey);
     } catch (_) {
       throw const CacheException('Failed to clear session');

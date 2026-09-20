@@ -1,44 +1,9 @@
 {
-  "shared": {
-    "get_started": "Get Started"
-  },
-  "onboarding": {
-    "onboarding_title_1": "Your Journey,\nPerfectly Planned",
-    "onboarding_subtitle_1": "Effortlessly create and organize your\ndream trips. Start exploring now!",
-    "onboarding_title_2": "Discover\nFriends Nearby",
-    "onboarding_subtitle_2": "See where your friends are traveling and\nexplore the world together.",
-    "onboarding_title_3": "Stay Updated\nwith Top Places",
-    "onboarding_subtitle_3": "Find trending destinations and must-see attractions,\nall tailored to enhance your travel plans."
-  },
   "home": {
-    "home_title": "Home",
     "title": "Home",
-    "greeting": "Welcome, {}!",
-    "welcome_home": "Welcome Home!",
-    "home_subtitle": "You have successfully completed the onboarding process."
-  },
-  "common": {
-    "retry": "Retry",
-    "empty_title": "Nothing here yet",
-    "empty_description": "There's no data to show."
-  },
-  "demo": {
-    "title": "Kit showcase",
-    "open": "UI kit showcase",
-    "tab_result": "Single result",
-    "tab_list": "Paginated list",
-    "tab_inputs": "Inputs",
-    "show_errors": "Show validation errors",
-    "select_hint": "Select…",
-    "search_hint": "Search…",
-    "success": "Success",
-    "network_error": "Network error",
-    "server_error": "Server error",
-    "empty": "Empty",
-    "empty_title": "No items",
-    "empty_description": "This is the empty state — switch to the Success scenario to load data.",
-    "hint_result": "Pick a scenario. One ResultBuilder renders loading, data, and typed-failure errors with retry.",
-    "hint_list": "Pick a scenario. Pull to refresh, scroll to load more — skeletons, empty and error states included."
+    "fetch_profile": "Fetch profile (authenticated)",
+    "profile_fetched": "Profile refreshed for {}.",
+    "logout": "Log out"
   },
   "errors": {
     "network": "No internet connection. Please try again.",
@@ -54,32 +19,11 @@
     "go_to_register": "Don't have an account? Sign up",
     "register_title": "Create account",
     "register_cta": "Create account",
-    "log_in": "Log in",
-    "log_in_subtitle": "Enter your email and password",
     "email": "Email",
-    "email_required": "Email is required",
     "email_invalid": "Enter a valid email",
     "password": "Password",
-    "password_required": "Password is required",
     "password_too_short": "Password must be at least 6 characters",
-    "remember_me": "Remember me",
-    "forgot_password": "Forgot Password",
-    "login_button": "Login",
-    "dont_have_account": "Don't have an account? ",
-    "sign_up": "Sign Up",
-    "create_account": "Create Account",
-    "create_account_subtitle": "Create a new account to get started.",
     "name": "Name",
-    "name_required": "Name is required",
-    "confirm_password": "Confirm Password",
-    "confirm_password_required": "Confirm password is required",
-    "passwords_do_not_match": "Passwords do not match",
-    "create_account_button": "Create Account",
-    "already_have_account": "Already have an account? ",
-    "sign_in": "Sign In",
-    "or_continue_with": "Or Continue With Account",
-    "forgot_password_title": "Forgot Password",
-    "forgot_password_subtitle": "Enter your email address to receive a reset link\nand regain access to your account.",
-    "reset_link_sent": "Password reset link sent to your email."
+    "name_required": "Name is required"
   }
 }

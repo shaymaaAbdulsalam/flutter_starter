@@ -2,10 +2,6 @@ import 'package:flutter_starter/core/typedefs/typedefs.dart';
 import 'package:flutter_starter/features/auth/data/models/user_dto.dart';
 import 'package:flutter_starter/features/auth/domain/entities/auth_session.dart';
 
-/// DTO for a successful auth response: tokens + the user payload.
-///
-/// Adjust [fromJson] to match your backend's login/register envelope. This is
-/// the *only* place that knows the wire shape of an auth response.
 class AuthSessionDto {
   const AuthSessionDto({
     required this.accessToken,

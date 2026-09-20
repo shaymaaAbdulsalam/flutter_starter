@@ -13,10 +13,6 @@ part 'register_event.dart';
 part 'register_state.dart';
 part 'register_validator.dart';
 
-/// Registration form bloc — same shape and conventions as `LoginBloc`
-/// (FieldValue fields, in-bloc validation, `Result` submission via
-/// `linkWithState`). Mirroring it on purpose: every form in the kit reads
-/// identically.
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState>
     with FormValidationMixin {
   RegisterBloc({
